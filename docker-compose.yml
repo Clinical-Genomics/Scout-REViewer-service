@@ -3,7 +3,7 @@ services:
   web:
     build: .
     ports:
-      - "${SRS_PORT}:${SRS_PORT}"
+      - "5050:5050"
     volumes:
       - "${HOST_DATA}:/host_data"
     env_file:
