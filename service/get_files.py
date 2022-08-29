@@ -1,12 +1,11 @@
-import os
-
 import asyncio
+import os
 import urllib
 
 import aiofiles
-
-from dotenv import dotenv_values
 from aiohttp import ClientSession
+from dotenv import dotenv_values
+
 from service.utils.get_root_path import get_root_path
 
 

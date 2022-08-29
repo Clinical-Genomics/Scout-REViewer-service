@@ -14,8 +14,8 @@
 """
 import os
 
-from fastapi.testclient import TestClient
 from dotenv import dotenv_values
+from fastapi.testclient import TestClient
 
 from main import app
 from service.utils.get_root_path import get_root_path
