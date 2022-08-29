@@ -1,5 +1,4 @@
 import uuid
-
 from typing import Optional
 
 from fastapi import FastAPI
@@ -14,20 +13,19 @@ from service.remove_files import remove_files
 
 tags_metadata = [
     {
-        'name': 'root',
-        'description': 'Just a convenient way to check if the server is running.',
+        "name": "root",
+        "description": "Just a convenient way to check if the server is running.",
     },
-    {
-        'name': 'reviewer',
-        'description': 'Generates an svg. See README.md for setup instructions.'
-    },
+    {"name": "reviewer", "description": "Generates an svg. See README.md for setup instructions."},
 ]
 
 app = FastAPI(openapi_tags=tags_metadata)
 
-@app.get('/', tags=['root'])
+
+@app.get("/", tags=["root"])
 async def root():
-    return {'message': 'Scout-REViewer-service is running!'}
+    return {"message": "Scout-REViewer-service is running!"}
+
 
 class Reviewer(BaseModel):
     reads: str
@@ -38,7 +36,8 @@ class Reviewer(BaseModel):
     catalog: Optional[str] = None
     locus: str
 
-@app.post('/reviewer', response_class=PlainTextResponse, tags=['reviewer'])
+
+@app.post("/reviewer", response_class=PlainTextResponse, tags=["reviewer"])
 async def reviewer(request_data: Reviewer):
     file_id = str(uuid.uuid4())
     data = request_data.dict()

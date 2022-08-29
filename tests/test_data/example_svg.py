@@ -1,4 +1,4 @@
-SVG = '''<svg xmlns="http://www.w3.org/2000/svg" width="1980" height="560" viewBox="0 0 1980 560">
+SVG = """<svg xmlns="http://www.w3.org/2000/svg" width="1980" height="560" viewBox="0 0 1980 560">
 <defs>
     <linearGradient id="BlueWhiteBlue" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" style="stop-color:#8da0cb;stop-opacity:0.8" />
@@ -664,4 +664,4 @@ SVG = '''<svg xmlns="http://www.w3.org/2000/svg" width="1980" height="560" viewB
 <rect x="1410" y="540" width="30" height="10" stroke="none" fill="#fc8d62" opacity="0.7" />
 <rect x="1440" y="540" width="30" height="10" stroke="none" fill="#fc8d62" opacity="0.7" />
 <rect x="1470" y="540" width="500" height="10" stroke="none" fill="#8da0cb" opacity="0.7" />
-</svg>'''
+</svg>"""
