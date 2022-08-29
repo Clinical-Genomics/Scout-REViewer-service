@@ -23,7 +23,7 @@ jobs:
      - name: Black
        uses: psf/black@stable
        with:
-        black_args: ". --check --line-length 100"
+        options: ". --check --line-length 100"
 
      - name: Run isort
        uses: jamescurtin/isort-action@master
