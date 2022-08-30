@@ -152,36 +152,3 @@ Needs a `.fasta` reference file to run. See instructions for `.env` files above.
 ```
 pytest
 ```
-
-## TODO
-
-- [x] get files from remote
-- [x] store files on server
-- [x] run REViewer with local file path as arguments
-- [x] send back REViewer generated SVG
-- [x] bundle REViewer
-- [x] Dockerize
-- [ ] make smaller docker build
-- [x] delete tmp files, maybe it's good if this also runs as some kind of chron job
-- [x] tests
-- [x] more tests – primarily for optional post values
-- [ ] more tests 2 – check that it fails well with wrong input
-- [ ] unit tests - low prio
-- [ ] make sure to check if all files are created correctly after fetching
-- [ ] validate urls – add helpful error messages if wrong file input (check that a file is download)
-- [ ] prettify && DRY up
-
-- [x] API documentation
-- [x] make it possible to select port through .env variables – docker
-
-- [ ] handle files that are too large – test? low priority
-- [ ] security – should be enough for now since this will be an internal service
-
-- [x] add viewBox attribute to allow for responsive scaling when added to HTML
-
-### Ideas
-
-- [ ] file uploader
-- [ ] rate limiting
-- [ ] could pipe svg instead of creating a file? (Don't think this can be easily done.)
-
