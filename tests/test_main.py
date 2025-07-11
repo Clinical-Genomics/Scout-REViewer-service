@@ -1,17 +1,18 @@
 """
-    Test REViewer svg generation.
+Test REViewer svg generation.
 
-    Integration tests that test the whole stack:
-      * The API
-      * Data storage, retrieval and deletion.
-      * Running the REViewer script with real data
+Integration tests that test the whole stack:
+  * The API
+  * Data storage, retrieval and deletion.
+  * Running the REViewer script with real data
 
-    This test assumes a reference file (.fasta) in the .env file that you've
-    added to the project. It also assumes a reference index file (.fasta.fai)
-    accompanying the reference file. The reference index file (.fasta.fai) will
-    be generated the first time you run the reference file (.fasta) through
-    REViwer if you've not provided one.
+This test assumes a reference file (.fasta) in the .env file that you've
+added to the project. It also assumes a reference index file (.fasta.fai)
+accompanying the reference file. The reference index file (.fasta.fai) will
+be generated the first time you run the reference file (.fasta) through
+REViwer if you've not provided one.
 """
+
 import os
 
 from dotenv import dotenv_values
