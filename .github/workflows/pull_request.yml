@@ -24,6 +24,7 @@ jobs:
        uses: psf/black@stable
        with:
         options: ". --check --line-length 100"
+        version: "25.1.0"
 
      - name: Run isort
        uses: jamescurtin/isort-action@master
