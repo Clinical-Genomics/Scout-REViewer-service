@@ -16,7 +16,10 @@ tags_metadata = [
         "name": "root",
         "description": "Just a convenient way to check if the server is running.",
     },
-    {"name": "reviewer", "description": "Generates an svg. See README.md for setup instructions."},
+    {
+        "name": "reviewer",
+        "description": "Generates an svg. See README.md for setup instructions.",
+    },
 ]
 
 app = FastAPI(openapi_tags=tags_metadata)
@@ -51,6 +54,7 @@ async def reviewer(request_data: Reviewer):
     await remove_files(files, path_to_svg)
 
     return svg
+
 
 @app.post("/trgt", response_class=PlainTextResponse, tags=["trgt"])
 async def reviewer(request_data: Reviewer):

@@ -39,6 +39,7 @@ def generate_svg(data, file_id, files):
 
     return f"{output_prefix}.{locus}.svg"
 
+
 def generate_trgt_svg(data, file_id, files):
     env = dotenv_values(".env")
     path = get_tmp_data_path()
