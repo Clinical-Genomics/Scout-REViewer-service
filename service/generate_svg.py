@@ -38,3 +38,37 @@ def generate_svg(data, file_id, files):
     print(result.stdout.decode("utf-8"))
 
     return f"{output_prefix}.{locus}.svg"
+
+def generate_trgt_svg(data, file_id, files):
+    env = dotenv_values(".env")
+    path = get_tmp_data_path()
+    output_file = f"{path}/{file_id}/{locus}.svg"
+
+    # should really be no need to check output path here since we've already
+    # created the folder when we stored the input files
+    os.makedirs(path, exist_ok=True)
+    locus = data.get("locus", "")
+
+    cmd = [
+        env.get("TRGT_PATH"),
+        "plot",
+        "--spanning-reads",
+        files.get("reads", ""),
+        "--vcf",
+        files.get("vcf", ""),
+        "--repeats",
+        files.get("catalog") or env.get("REV_CATALOG_PATH"),
+        "--repeat-id",
+        locus,
+        "--genome",
+        data.get("reference") or env.get("REV_REF_PATH"),
+        "--output-prefix",
+        output_file,
+    ]
+
+    result = subprocess.run(cmd, stdout=subprocess.PIPE, check=True)
+
+    print("REViewer:")
+    print(result.stdout.decode("utf-8"))
+
+    return f"{output_file}"
