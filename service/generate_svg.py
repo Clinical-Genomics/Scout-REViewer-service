@@ -64,7 +64,7 @@ def generate_trgt_svg(data, file_id, files):
         locus,
         "--genome",
         data.get("reference") or env.get("REV_REF_PATH"),
-        "--output-prefix",
+        "--image",
         output_file,
     ]
 
