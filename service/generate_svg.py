@@ -49,6 +49,7 @@ def generate_trgt_svg(data, file_id, files):
     # should really be no need to check output path here since we've already
     # created the folder when we stored the input files
     os.makedirs(path, exist_ok=True)
+    os.makedirs(f"{path}/{file_id}", exist_ok=True)
     locus = data.get("locus", "")
 
     cmd = [
@@ -70,7 +71,7 @@ def generate_trgt_svg(data, file_id, files):
 
     result = subprocess.run(cmd, stdout=subprocess.PIPE, check=True)
 
-    print("REViewer:")
+    print("trgt:")
     print(result.stdout.decode("utf-8"))
 
     return f"{output_file}"
