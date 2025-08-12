@@ -27,9 +27,7 @@ client = TestClient(app)
 env = dotenv_values(".env")
 
 # pylint: disable=line-too-long, invalid-name
-reads = (
-    f"{get_root_path()}/tests/test_data/justhusky_exphun_hugelymodelbat_realigned.bam"
-)
+reads = f"{get_root_path()}/tests/test_data/justhusky_exphun_hugelymodelbat_realigned.bam"
 reads_index = f"{get_root_path()}/tests/test_data/justhusky_exphun_hugelymodelbat_realigned.bam.bai"
 vcf = f"{get_root_path()}/tests/test_data/justhusky_exphun_hugelymodelbat.vcf"
 reference = env.get("REV_REF_PATH")

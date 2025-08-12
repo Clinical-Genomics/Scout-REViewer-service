@@ -46,8 +46,7 @@ async def get_files(data, file_id):
                     session,
                     data,
                     "catalog",
-                    data.get("catalog")
-                    or dotenv_values(".env").get("REV_CATALOG_PATH"),
+                    data.get("catalog") or dotenv_values(".env").get("REV_CATALOG_PATH"),
                     file_id,
                     "json",
                 )
