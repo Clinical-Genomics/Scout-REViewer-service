@@ -1,6 +1,11 @@
 name: Scout-REViewer-service
+channels:
+    - bioconda
+    - conda-forge
 dependencies:
-- python=3.9.5
+- python
+- reviewer
+- trgt
 - pip
 - pip:
     - aiofiles

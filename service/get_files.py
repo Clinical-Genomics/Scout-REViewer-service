@@ -56,7 +56,12 @@ async def get_files(data, file_id):
             ),
             asyncio.create_task(
                 get_data(
-                    session, data, "reads_index", data.get("reads_index", ""), file_id, "bam.bai"
+                    session,
+                    data,
+                    "reads_index",
+                    data.get("reads_index", ""),
+                    file_id,
+                    "bam.bai",
                 )
             ),
             asyncio.create_task(
