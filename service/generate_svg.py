@@ -43,6 +43,7 @@ def generate_svg(data, file_id, files):
 def generate_trgt_svg(data, file_id, files):
     env = dotenv_values(".env")
     path = get_tmp_data_path()
+    locus = data.get("locus", "")
     output_file = f"{path}/{file_id}/{locus}.svg"
 
     # should really be no need to check output path here since we've already
