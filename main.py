@@ -20,6 +20,10 @@ tags_metadata = [
         "name": "reviewer",
         "description": "Generates an svg. See README.md for setup instructions.",
     },
+    {
+        "name": "trgt",
+        "description": "Generates an svg. See README.md for setup instructions.",
+    },
 ]
 
 app = FastAPI(openapi_tags=tags_metadata)

@@ -7,6 +7,8 @@ About changelog [here](https://keepachangelog.com/en/1.1.0/)
 ## [unreleased]
 ### Added
 - Added trgt endpoint
+- Keep a changelog
+- Use pyproject.toml for build
 ### Changed
 - Changed build system: use bioconda
 

@@ -4,6 +4,7 @@ COPY . /Scout-REViewer-service
 COPY cg.env.docker .env
 
 RUN conda env create -f /Scout-REViewer-service/environment.yml
+RUN pip install
 
 ENTRYPOINT [\
     "conda", "run", "--no-capture-output", "-n", "Scout-REViewer-service", \
