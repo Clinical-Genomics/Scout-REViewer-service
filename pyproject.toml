@@ -22,11 +22,8 @@ Issues = "https://github.com/Clinical-Genomics/Scout-REViewer-service/issues"
 requires = ["hatchling >= 1.26"]
 build-backend = "hatchling.build"
 
-[tool.hatch.build.targets.sdist]
-include = [
-  "*.py",
-  "/service",
-]
+[tool.hatch.build]
+include = ["main.py"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["service"]
