@@ -75,6 +75,7 @@ async def reviewer(request_data: Reviewer):
 
     return svg
 
+
 @app.post("/version", response_class=PlainTextResponse, tags=["version"])
 async def reviewer(request_data: Reviewer):
     return get_versions()
