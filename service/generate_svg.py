@@ -60,11 +60,11 @@ def generate_trgt_svg(data, file_id, files):
         "--vcf",
         files.get("vcf", ""),
         "--repeats",
-        files.get("catalog") or env.get("REV_CATALOG_PATH"),
+        files.get("catalog") or env.get("TRGT_CATALOG_PATH"),
         "--repeat-id",
         locus,
         "--genome",
-        data.get("reference") or env.get("REV_REF_PATH"),
+        data.get("reference") or env.get("TRGT_REF_PATH"),
         "--image",
         output_file,
     ]
