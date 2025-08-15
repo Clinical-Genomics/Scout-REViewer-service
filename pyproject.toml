@@ -1,0 +1,29 @@
+[project]
+name = "scout-reviewer-service"
+version = "0.1"
+authors = [
+  { name="Fredrik Carlsson" },
+  { name="Daniel Nilsson", email="daniel.k.nilsson@gmail.com" },
+]
+description = "A REST service for generating REViewer and TRGT plot output for STRs"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+
+[project.urls]
+Homepage = "https://github.com/Clinical-Genomics/Scout-REViewer-service"
+Issues = "https://github.com/Clinical-Genomics/Scout-REViewer-service/issues"
+
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = ["main.py"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["service"]
