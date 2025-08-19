@@ -1,6 +1,7 @@
 import subprocess
 
 from dotenv import dotenv_values
+
 from service import __version__
 
 
