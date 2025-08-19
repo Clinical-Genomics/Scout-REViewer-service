@@ -7,6 +7,7 @@ About changelog [here](https://keepachangelog.com/en/1.1.0/)
 ## [0.2]
 ### Added
 - Added trgt endpoint
+- Added version endpoint
 - Keep a changelog
 - Use pyproject.toml for build
 ### Changed
