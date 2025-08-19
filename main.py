@@ -19,7 +19,15 @@ tags_metadata = [
     },
     {
         "name": "reviewer",
-        "description": "Generates an svg. See README.md for setup instructions.",
+        "description": "Generates a REViewer svg. See README.md for setup instructions.",
+    },
+    {
+        "name": "trgt",
+        "description": "Generates a trgt plot svg. See README.md for setup instructions.",
+    },
+    {
+        "name": "version",
+        "description": "Returns versions of REViewer and trgt binaries.",
     },
 ]
 
