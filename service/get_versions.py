@@ -6,8 +6,8 @@ from dotenv import dotenv_values
 def get_version(cmd_path) -> str:
     """Return version string."""
     cmd = [cmd_path, "--version"]
-    result = subprocess.run(cmd, stdout=subprocess.PIPE, check=True)
-    return result.stdout.decode("utf-8")
+    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+    return result.stdout.decode("utf-8") + result.stderr.decode("utf-8")
 
 
 def get_versions() -> str:
