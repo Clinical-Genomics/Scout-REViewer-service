@@ -29,10 +29,6 @@ tags_metadata = [
         "name": "version",
         "description": "Returns versions of REViewer and trgt binaries.",
     },
-    {
-        "name": "trgt",
-        "description": "Generates an svg. See README.md for setup instructions.",
-    },
 ]
 
 app = FastAPI(openapi_tags=tags_metadata)
