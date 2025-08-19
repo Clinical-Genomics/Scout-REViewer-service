@@ -3,6 +3,7 @@ import subprocess
 from dotenv import dotenv_values
 from service import __version__
 
+
 def get_version(cmd_path) -> str:
     """Return version string."""
     cmd = [cmd_path, "--version"]
@@ -14,4 +15,10 @@ def get_versions() -> str:
     """Return version strings."""
     env = dotenv_values(".env")
 
-    return "\n".join([f"Scout-REViewer-Service v{__version__}", get_version(env.get("REV_PATH")), get_version(env.get("TRGT_PATH"))])
+    return "\n".join(
+        [
+            f"Scout-REViewer-Service v{__version__}",
+            get_version(env.get("REV_PATH")),
+            get_version(env.get("TRGT_PATH")),
+        ]
+    )
