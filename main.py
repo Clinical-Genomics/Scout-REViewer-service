@@ -85,5 +85,5 @@ async def reviewer(request_data: Reviewer):
 
 
 @app.get("/version", response_class=PlainTextResponse, tags=["version"])
-async def reviewer(request_data: Reviewer):
+async def reviewer():
     return get_versions()
