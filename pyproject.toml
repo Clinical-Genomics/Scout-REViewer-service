@@ -1,6 +1,6 @@
 [project]
 name = "scout-reviewer-service"
-version = "0.1"
+version = "0.2"
 authors = [
   { name="Fredrik Carlsson" },
   { name="Daniel Nilsson", email="daniel.k.nilsson@gmail.com" },

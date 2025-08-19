@@ -1,7 +1,7 @@
 FROM continuumio/miniconda3
 
 COPY . /Scout-REViewer-service
-COPY cg.env.docker .env
+COPY cg.env.docker /Scout-REViewer-service/.env
 
 WORKDIR /Scout-REViewer-service
 
