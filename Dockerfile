@@ -3,6 +3,8 @@ FROM continuumio/miniconda3
 COPY . /Scout-REViewer-service
 COPY cg.env.docker .env
 
+WORKDIR /Scout-REViewer-service
+
 RUN conda env create -f /Scout-REViewer-service/environment.yml
 
 ENTRYPOINT [\
