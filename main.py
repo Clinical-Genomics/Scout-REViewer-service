@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from service.generate_svg import generate_svg, generate_trgt_svg
 from service.get_files import get_files
 from service.get_svg_as_string import get_svg_as_string
+from service.get_versions import get_versions
 from service.modify_svg import modify_svg
 from service.remove_files import remove_files
 
@@ -18,7 +19,15 @@ tags_metadata = [
     },
     {
         "name": "reviewer",
-        "description": "Generates an svg. See README.md for setup instructions.",
+        "description": "Generates a REViewer svg. See README.md for setup instructions.",
+    },
+    {
+        "name": "trgt",
+        "description": "Generates a trgt plot svg. See README.md for setup instructions.",
+    },
+    {
+        "name": "version",
+        "description": "Returns versions of REViewer and trgt binaries.",
     },
 ]
 
@@ -69,3 +78,8 @@ async def reviewer(request_data: Reviewer):
     await remove_files(files, path_to_svg)
 
     return svg
+
+
+@app.get("/version", response_class=PlainTextResponse, tags=["version"])
+async def reviewer():
+    return get_versions()
