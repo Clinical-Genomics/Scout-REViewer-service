@@ -1,8 +1,8 @@
 # Scout-REViewer-service
 
-A rest service for generating REViewer output.
+A rest service for generating [REViewer](https://github.com/Illumina/REViewer) and [trgt](https://github.com/PacificBiosciences/trgt) output.
 
-Send in json with bam and vcf file references. Get a SVG with graph alignments.
+Send in json/bed catalog with bam-let and vcf file, plus a reference genome. Get a SVG with graph alignments.
 
 ## Getting started
 
@@ -105,7 +105,7 @@ adding a corresponding (same name, different file extension) `fasta.fai` file
 to the same location as your fasta file (or provide one with the API request –
 TBD) – if you already have one.
 
-##### files accessible from another server
+##### Files accessible from another server
 
 If running in docker use `host.docker.internal` instead of `localhost` to
 access your own server.
@@ -122,7 +122,7 @@ curl --location --request POST 'http://127.0.0.1:8000/reviewer' \
 }'
 ```
 
-##### files from locally accessible file system
+##### Files from locally accessible file system
 
 This will avoid copying the files and instead use the already existing files.
 This is preferred if possible as it should be faster and reduce writes.
@@ -135,6 +135,23 @@ curl --location --request POST 'http://127.0.0.1:8000/reviewer' \
   "reads_index": "/<path_to_file>/justhusky_exphun_hugelymodelbat_realigned.bam.bai",
   "vcf": "/<path_to_file>/justhusky_exphun_hugelymodelbat.vcf",
   "catalog": "/<path_to_file>/catalog_test.json",
+  "locus": "TCF4"
+}'
+```
+
+
+##### Visualise with trgt
+
+The `trgt` endpoint will instead run `trgt`. Note that trgt is under a restrictive license.
+
+``` bash
+curl --location --request POST 'http://127.0.0.1:8000/trgt' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "reads": "/<path_to_file>/justhusky_hugelymodelbat.trgt.bam",
+  "reads_index": "/<path_to_file>/justhusky_hugelymodelbat.trgt.bam.bai",
+  "vcf": "/<path_to_file>/justhusky_hugelymodelbat.trgt.vcf",
+  "catalog": "/<path_to_file>/catalog_test.trgt.bed",
   "locus": "TCF4"
 }'
 ```
