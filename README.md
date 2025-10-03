@@ -139,6 +139,24 @@ curl --location --request POST 'http://127.0.0.1:8000/reviewer' \
 }'
 ```
 
+
+##### visualise with trgt
+
+This will avoid copying the files and instead use the already existing files.
+This is preferred if possible as it should be faster and reduce writes.
+
+``` bash
+curl --location --request POST 'http://127.0.0.1:8000/trgt' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "reads": "/<path_to_file>/justhusky_hugelymodelbat.trgt.bam",
+  "reads_index": "/<path_to_file>/justhusky_hugelymodelbat.trgt.bam.bai",
+  "vcf": "/<path_to_file>/justhusky_hugelymodelbat.trgt.vcf",
+  "catalog": "/<path_to_file>/catalog_test.trgt.bed",
+  "locus": "TCF4"
+}'
+```
+
 #### Docs
 
 Automatically generated API docs can be accessed at
