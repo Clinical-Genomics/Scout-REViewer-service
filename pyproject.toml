@@ -7,7 +7,15 @@ authors = [
 ]
 description = "A REST service for generating REViewer and TRGT plot output for STRs"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.12"
+dependencies = [
+    "aiofiles",
+    "aiohttp",
+    "fastapi",
+    "pydantic>=2",
+    "python-dotenv",
+    "uvicorn[standard]",
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
@@ -27,3 +35,20 @@ include = ["main.py"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["service"]
+
+[dependency-groups]
+dev = [
+    "httpx2",
+    "pytest",
+]
+lint = [
+    "black",
+    "isort",
+]
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
+line_length = 100

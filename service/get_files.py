@@ -1,22 +1,20 @@
 import asyncio
-import os
 import urllib
 
 import aiofiles
 from aiohttp import ClientSession
 from dotenv import dotenv_values
 
-from service.utils.get_root_path import get_root_path
+from service.utils.get_tmp_data_path import get_request_tmp_path
 
 
 async def save(data, file_name_suffix, file_id, file_type):
-    path = f"{get_root_path()}/tmp_data"
+    path = get_request_tmp_path(file_id)
     # The bam-index file need to have the same filename as the read-bam file
     # for REViewer to recognize it. So we have this check here and change the
     # suffix acordingly.
     suffix = "reads" if file_name_suffix == "reads_index" else file_name_suffix
-    file_name = f"{path}/{file_id}_{suffix}.{file_type}"
-    os.makedirs(path, exist_ok=True)
+    file_name = f"{path}/{suffix}.{file_type}"
 
     async with aiofiles.open(file_name, "wb") as out:
         await out.write(data)

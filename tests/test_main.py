@@ -14,7 +14,9 @@ REViwer if you've not provided one.
 """
 
 import os
+import shutil
 
+import pytest
 from dotenv import dotenv_values
 from fastapi.testclient import TestClient
 
@@ -36,7 +38,13 @@ catalog = f"{get_root_path()}/tests/test_data/catalog_test.json"
 locus = "TCF4"
 # pylint: enable=line-too-long
 
+requires_reviewer = pytest.mark.skipif(
+    not (reference and os.path.isfile(reference) and shutil.which(env.get("REV_PATH") or "")),
+    reason="REViewer integration tests need REV_PATH and REV_REF_PATH set in .env",
+)
 
+
+@requires_reviewer
 def test_files_has_data():
     assert os.path.getsize(reads) != 0
     assert os.path.getsize(reads_index) != 0
@@ -52,6 +60,7 @@ def test_root():
     assert res.json() == {"message": "Scout-REViewer-service is running!"}
 
 
+@requires_reviewer
 def test_path_api_with_no_optional_values():
     json = {"reads": reads, "reads_index": reads_index, "vcf": vcf, "locus": locus}
 
@@ -63,6 +72,7 @@ def test_path_api_with_no_optional_values():
     assert res.text == SVG
 
 
+@requires_reviewer
 def test_path_api_with_optional_values():
     json = {
         "reads": reads,
