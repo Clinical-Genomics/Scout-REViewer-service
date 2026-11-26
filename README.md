@@ -17,40 +17,45 @@ git clone <project>
 cd <project>
 ```
 
-Create a docker specific env file called `.env.docker` in the root folder with
-the following content:
+Settings are read from environment variables. The image ships with
+`cg.env.docker` as its `.env` file, whose values are used as defaults for any
+setting not given in the environment. The `trgt` and `REViewer` binaries are
+included in the image and on its `PATH`, so `REV_PATH` and `TRGT_PATH` can be
+left as they are.
+
+Create a docker specific env file called `.env.docker` in the root folder to
+override the defaults for your setup, for example:
 
 ```
-HOST_DATA=<absolute_path_to_host_machine_folder_with_reference_file>
+HOST_DATA=<absolute_path_to_host_machine_folder_with_reference_files>
 
-SRS_PORT=5050
-
-REV_PATH=REViewer
-TRGT_PATH=trgt
-REV_REF_PATH=/host_data/<file_name_of_the_reference_file_in_the_host_data_folder>.fasta
+REV_REF_PATH=/host_data/<reference_file_in_the_host_data_folder>.fasta
 REV_CATALOG_PATH=data/catalog_test.json
+TRGT_REF_PATH=/host_data/<reference_file_in_the_host_data_folder>.fasta
+TRGT_CATALOG_PATH=/host_data/<trgt_repeat_catalog_in_the_host_data_folder>.bed
 ```
 
-2 changes that needs to be made are:
-
-1. update the `HOST_DATA` value to point towards your `.fasta` reference file.
-   This will be used as default if the user does not provide one.
-2. update the file name in the `REV_REF_PATH` to match the reference file in
-   your `host_data` folder
-
-SRS_PORT can be changed to set the port the service exposes.
-
-REV_CATALOG_PATH can be changed to point to a custom file in the `host_data`
-folder but this is not required as one is provided by default.
+`HOST_DATA` is the host folder mounted (read-only) at `/host_data` in the
+container. The reference and catalog paths are used when a request does not
+provide its own. `REV_CATALOG_PATH` can point to a custom file in the
+`host_data` folder, but a test catalog is included in the image.
 
 #### run
 
 ``` bash
-env $(cat .env.docker) docker compose up
+docker compose --env-file .env.docker up
 ```
 
-The crazy `env $(cat .env.docker)` is because `docker compose up` does not support
-an `--env-file` option like `docker run` does.
+`--env-file` provides `HOST_DATA` for the volume mount, and the compose
+`env_file` passes the settings into the container. The service listens on port
+5050; change the host side of `ports` in `docker-compose.yml` to expose it on
+another port.
+
+With plain `docker run`, pass settings with `-e` or `--env-file`:
+
+``` bash
+docker run --env-file .env.docker -v <host_data_folder>:/host_data:ro -p 5050:5050 clinicalgenomics/scout-reviewer-service
+```
 
 ### To develop locally
 
@@ -61,8 +66,8 @@ git clone <project>
 cd <project>
 ```
 
-Create an env file called `.env`. With the following
-content:
+Settings can be given as environment variables, or in a file called `.env` in
+the folder you run the service from, for example:
 
 ```
 REV_PATH=/Users/<User>/bin/REViewer/build/install/bin/REViewer

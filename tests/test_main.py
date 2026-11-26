@@ -45,15 +45,10 @@ requires_reviewer = pytest.mark.skipif(
 
 @pytest.fixture
 def settings(monkeypatch):
-    """Service settings pointing at the test data instead of the .env file."""
-    values = {
-        "REV_PATH": reviewer_path,
-        "REV_REF_PATH": reference,
-        "REV_CATALOG_PATH": catalog,
-    }
-    for module in ("service.generate_svg", "service.get_files"):
-        monkeypatch.setattr(f"{module}.dotenv_values", lambda *args, **kwargs: values)
-    return values
+    """Service settings pointing at the test data, overriding the environment and .env."""
+    monkeypatch.setenv("REV_PATH", reviewer_path)
+    monkeypatch.setenv("REV_REF_PATH", reference)
+    monkeypatch.setenv("REV_CATALOG_PATH", catalog)
 
 
 def test_files_has_data():
@@ -84,10 +79,10 @@ def test_path_api_with_no_optional_values(settings):
 
 
 @requires_reviewer
-def test_path_api_with_optional_values(settings):
+def test_path_api_with_optional_values(settings, monkeypatch):
     # Defaults that would fail, so the test only passes if the request's files are used
-    settings["REV_REF_PATH"] = "/nonexistent/reference.fasta"
-    settings["REV_CATALOG_PATH"] = "/nonexistent/catalog.json"
+    monkeypatch.setenv("REV_REF_PATH", "/nonexistent/reference.fasta")
+    monkeypatch.setenv("REV_CATALOG_PATH", "/nonexistent/catalog.json")
     json = {
         "reads": reads,
         "reads_index": reads_index,

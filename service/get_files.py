@@ -3,7 +3,6 @@ import urllib
 
 import aiofiles
 from aiohttp import ClientSession
-from dotenv import dotenv_values
 
 from service.utils.get_tmp_data_path import get_request_tmp_path
 
@@ -24,6 +23,10 @@ async def save(data, file_name_suffix, file_id, file_type):
 
 
 async def get_data(session, data, data_type, url, file_id, file_type):
+    # optional input not given: leave it out, the tool's configured default is used
+    if not url:
+        return {}
+
     # if path (non url) we don't need to fetch and store the file and can just
     # use the file directly
     if urllib.parse.urlparse(url).scheme == "":
@@ -44,7 +47,7 @@ async def get_files(data, file_id):
                     session,
                     data,
                     "catalog",
-                    data.get("catalog") or dotenv_values(".env").get("REV_CATALOG_PATH"),
+                    data.get("catalog"),
                     file_id,
                     "json",
                 )
