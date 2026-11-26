@@ -27,6 +27,7 @@ COPY pyproject.toml uv.lock README.md ./
 RUN uv sync --frozen --no-dev --no-install-project
 COPY main.py ./
 COPY service ./service
+COPY data ./data
 RUN uv sync --frozen --no-dev
 
 #########
