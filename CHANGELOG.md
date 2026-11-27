@@ -15,6 +15,7 @@ About changelog [here](https://keepachangelog.com/en/1.1.0/)
 - Documentation for trgt endpoint
 - Temporary files left in `tmp_data`: REViewer metrics/phasing outputs, trgt plots, and everything from failed requests. Each request now uses its own scratch directory, removed when the request finishes
 - `/trgt` requests without a catalog used the REViewer catalog instead of `TRGT_CATALOG_PATH`
+- A locus with path separators could make REViewer/trgt write outside the request scratch dir: the locus is now validated, and trgt writes to a fixed file name
 
 ## [0.2]
 ### Added

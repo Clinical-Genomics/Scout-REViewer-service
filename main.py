@@ -2,7 +2,7 @@ import uuid
 
 from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from service.generate_svg import generate_svg, generate_trgt_svg
 from service.get_files import get_files
@@ -45,7 +45,9 @@ class Reviewer(BaseModel):
     reference: str | None = None
     reference_index: str | None = None
     catalog: str | None = None
-    locus: str
+    # The locus ends up in REViewer's output file name, so no path separators, and no
+    # leading "-" that the tools could read as an option.
+    locus: str = Field(pattern=r"^[^/\\-][^/\\]*$", description="Locus/repeat id in the catalog")
 
 
 @app.post("/reviewer", response_class=PlainTextResponse, tags=["reviewer"])

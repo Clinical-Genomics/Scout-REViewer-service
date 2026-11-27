@@ -34,7 +34,7 @@ def generate_svg(data, file_id, files):
 
 def generate_trgt_svg(data, file_id, files):
     locus = data.get("locus", "")
-    output_file = f"{get_request_tmp_path(file_id)}/{locus}.svg"
+    output_file = f"{get_request_tmp_path(file_id)}/trgt.svg"
 
     cmd = [
         get_setting("TRGT_PATH"),
