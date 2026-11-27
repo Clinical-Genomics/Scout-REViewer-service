@@ -26,6 +26,7 @@ dist/
 # Environments
 
 venv/
+.venv/
 
 # Pycharm
 .idea/

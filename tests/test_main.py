@@ -4,18 +4,21 @@ Test REViewer svg generation.
 Integration tests that test the whole stack:
   * The API
   * Data storage, retrieval and deletion.
-  * Running the REViewer script with real data
+  * Running the REViewer binary with real data
 
-This test assumes a reference file (.fasta) in the .env file that you've
-added to the project. It also assumes a reference index file (.fasta.fai)
-accompanying the reference file. The reference index file (.fasta.fai) will
-be generated the first time you run the reference file (.fasta) through
-REViwer if you've not provided one.
+Instead of a full GRCh37 reference, the tests use a small stub reference with only
+the TCF4 region of chromosome 18 (see tests/test_data/make_stub_reference.py) and a
+catalog with only TCF4, since REViewer rejects catalog contigs missing from the
+reference. The expected SVG was generated with REViewer v0.2.7 and the full hs37d5
+reference, and is identical to the stub output.
+
+The tests are skipped when REViewer is not on PATH.
 """
 
 import os
+import shutil
 
-from dotenv import dotenv_values
+import pytest
 from fastapi.testclient import TestClient
 
 from main import app
@@ -24,17 +27,33 @@ from tests.test_data.example_svg import SVG
 
 client = TestClient(app)
 
-env = dotenv_values(".env")
-
-# pylint: disable=line-too-long, invalid-name
-reads = f"{get_root_path()}/tests/test_data/justhusky_exphun_hugelymodelbat_realigned.bam"
-reads_index = f"{get_root_path()}/tests/test_data/justhusky_exphun_hugelymodelbat_realigned.bam.bai"
-vcf = f"{get_root_path()}/tests/test_data/justhusky_exphun_hugelymodelbat.vcf"
-reference = env.get("REV_REF_PATH")
+test_data = f"{get_root_path()}/tests/test_data"
+reads = f"{test_data}/justhusky_exphun_hugelymodelbat_realigned.bam"
+reads_index = f"{test_data}/justhusky_exphun_hugelymodelbat_realigned.bam.bai"
+vcf = f"{test_data}/justhusky_exphun_hugelymodelbat.vcf"
+reference = f"{test_data}/stub_grch37_chr18.fa.gz"
 reference_index = f"{reference}.fai"
-catalog = f"{get_root_path()}/tests/test_data/catalog_test.json"
+catalog = f"{test_data}/catalog_tcf4.json"
 locus = "TCF4"
-# pylint: enable=line-too-long
+
+reviewer_path = shutil.which("REViewer")
+
+requires_reviewer = pytest.mark.skipif(
+    reviewer_path is None, reason="REViewer integration tests need REViewer on PATH"
+)
+
+
+@pytest.fixture
+def settings(monkeypatch):
+    """Service settings pointing at the test data instead of the .env file."""
+    values = {
+        "REV_PATH": reviewer_path,
+        "REV_REF_PATH": reference,
+        "REV_CATALOG_PATH": catalog,
+    }
+    for module in ("service.generate_svg", "service.get_files"):
+        monkeypatch.setattr(f"{module}.dotenv_values", lambda *args, **kwargs: values)
+    return values
 
 
 def test_files_has_data():
@@ -52,7 +71,8 @@ def test_root():
     assert res.json() == {"message": "Scout-REViewer-service is running!"}
 
 
-def test_path_api_with_no_optional_values():
+@requires_reviewer
+def test_path_api_with_no_optional_values(settings):
     json = {"reads": reads, "reads_index": reads_index, "vcf": vcf, "locus": locus}
 
     res = client.post(
@@ -63,7 +83,11 @@ def test_path_api_with_no_optional_values():
     assert res.text == SVG
 
 
-def test_path_api_with_optional_values():
+@requires_reviewer
+def test_path_api_with_optional_values(settings):
+    # Defaults that would fail, so the test only passes if the request's files are used
+    settings["REV_REF_PATH"] = "/nonexistent/reference.fasta"
+    settings["REV_CATALOG_PATH"] = "/nonexistent/catalog.json"
     json = {
         "reads": reads,
         "reads_index": reads_index,

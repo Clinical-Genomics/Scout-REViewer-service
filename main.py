@@ -1,5 +1,4 @@
 import uuid
-from typing import Optional
 
 from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
@@ -43,43 +42,37 @@ class Reviewer(BaseModel):
     reads: str
     reads_index: str
     vcf: str
-    reference: Optional[str] = None
-    reference_index: Optional[str] = None
-    catalog: Optional[str] = None
+    reference: str | None = None
+    reference_index: str | None = None
+    catalog: str | None = None
     locus: str
 
 
 @app.post("/reviewer", response_class=PlainTextResponse, tags=["reviewer"])
 async def reviewer(request_data: Reviewer):
     file_id = str(uuid.uuid4())
-    data = request_data.dict()
-    files = await get_files(data, file_id)
-    path_to_svg = generate_svg(data, file_id, files)
-    modify_svg(path_to_svg)
-    svg = get_svg_as_string(path_to_svg)
-
-    # really no need to await here, but seems more consistent, and should better
-    # catch errors
-    await remove_files(files, path_to_svg)
-
-    return svg
+    data = request_data.model_dump()
+    try:
+        files = await get_files(data, file_id)
+        path_to_svg = generate_svg(data, file_id, files)
+        modify_svg(path_to_svg)
+        return get_svg_as_string(path_to_svg)
+    finally:
+        await remove_files(file_id)
 
 
 @app.post("/trgt", response_class=PlainTextResponse, tags=["trgt"])
-async def reviewer(request_data: Reviewer):
+async def trgt(request_data: Reviewer):
     file_id = str(uuid.uuid4())
-    data = request_data.dict()
-    files = await get_files(data, file_id)
-    path_to_svg = generate_trgt_svg(data, file_id, files)
-    svg = get_svg_as_string(path_to_svg)
-
-    # really no need to await here, but seems more consistent, and should better
-    # catch errors
-    await remove_files(files, path_to_svg)
-
-    return svg
+    data = request_data.model_dump()
+    try:
+        files = await get_files(data, file_id)
+        path_to_svg = generate_trgt_svg(data, file_id, files)
+        return get_svg_as_string(path_to_svg)
+    finally:
+        await remove_files(file_id)
 
 
 @app.get("/version", response_class=PlainTextResponse, tags=["version"])
-async def reviewer():
+async def version():
     return get_versions()

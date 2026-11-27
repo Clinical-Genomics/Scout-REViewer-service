@@ -1,10 +1,11 @@
-version: "3.9"
 services:
   web:
     build: .
+    # trgt and REViewer are x86_64-only binaries
+    platform: linux/amd64
     ports:
       - "5050:5050"
     volumes:
-      - "${HOST_DATA}:/host_data"
+      - "${HOST_DATA}:/host_data:ro"
     env_file:
       - .env.docker

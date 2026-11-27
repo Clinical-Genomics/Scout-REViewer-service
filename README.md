@@ -25,7 +25,8 @@ HOST_DATA=<absolute_path_to_host_machine_folder_with_reference_file>
 
 SRS_PORT=5050
 
-REV_PATH=/REViewer/build/install/bin/REViewer
+REV_PATH=REViewer
+TRGT_PATH=trgt
 REV_REF_PATH=/host_data/<file_name_of_the_reference_file_in_the_host_data_folder>.fasta
 REV_CATALOG_PATH=data/catalog_test.json
 ```
@@ -79,20 +80,21 @@ REV_CATALOG_PATH=data/catalog_test.json
 `REV_CATALOG_PATH` can be changed to point to another catalog file but this is
 not required as one is provided as default.
 
-Then load dependencies and the virtual environment using anaconda or mini-conda:
+For the `/trgt` endpoint, also set `TRGT_PATH`, `TRGT_REF_PATH` and
+`TRGT_CATALOG_PATH` (see `cg.env.docker` for an example). trgt release binaries
+are available at https://github.com/PacificBiosciences/trgt/releases.
+
+Dependencies are managed with [uv](https://docs.astral.sh/uv/). Install them
+into a local virtual environment with:
 
 ``` bash
-conda env create
+uv sync
 ```
 
 #### Run (development)
 
 ``` bash
-conda activate Scout-REViewer-service
-```
-
-``` bash
-uvicorn main:app --reload
+uv run uvicorn main:app --reload
 ```
 
 ### API
@@ -164,8 +166,22 @@ of this `README.md` is more extensive.
 
 ## Testing
 
-Needs a `.fasta` reference file to run. See instructions for `.env` files above.
+The REViewer integration tests run when the `REViewer` binary is on `PATH` (Linux
+x86_64 only, so they are skipped on e.g. macOS). They don't need `.env` or a full
+reference: they use a small bgzipped stub of GRCh37 chromosome 18 with only the
+TCF4 region, rebuilt with `tests/test_data/make_stub_reference.py`. CI installs the
+REViewer version pinned in the `Dockerfile`.
 
 ```
-pytest
+uv run pytest
 ```
+
+Lint with
+
+```
+uv run --only-group lint black --check .
+uv run --only-group lint isort --check-only .
+```
+
+The Docker image bundles statically linked trgt and REViewer release binaries
+(x86_64 only), pinned by version and checksum in the `Dockerfile`.

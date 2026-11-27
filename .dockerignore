@@ -23,3 +23,10 @@ volumes
 
 # project specific
 tmp_data
+
+# local environments
+.venv
+.env
+.env.*
+__pycache__
+.pytest_cache

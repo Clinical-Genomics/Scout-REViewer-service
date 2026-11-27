@@ -1,19 +1,13 @@
-import os
 import subprocess
 
 from dotenv import dotenv_values
 
-from service.utils.get_tmp_data_path import get_tmp_data_path
+from service.utils.get_tmp_data_path import get_request_tmp_path
 
 
 def generate_svg(data, file_id, files):
     env = dotenv_values(".env")
-    path = get_tmp_data_path()
-    output_prefix = f"{path}/{file_id}"
-
-    # should really be no need to check output path here since we've already
-    # created the folder when we stored the input files
-    os.makedirs(path, exist_ok=True)
+    output_prefix = f"{get_request_tmp_path(file_id)}/reviewer"
     locus = data.get("locus", "")
 
     cmd = [
@@ -42,15 +36,8 @@ def generate_svg(data, file_id, files):
 
 def generate_trgt_svg(data, file_id, files):
     env = dotenv_values(".env")
-    path = get_tmp_data_path()
     locus = data.get("locus", "")
-    output_file = f"{path}/{file_id}/{locus}.svg"
-
-    # should really be no need to check output path here since we've already
-    # created the folder when we stored the input files
-    os.makedirs(path, exist_ok=True)
-    os.makedirs(f"{path}/{file_id}", exist_ok=True)
-    locus = data.get("locus", "")
+    output_file = f"{get_request_tmp_path(file_id)}/{locus}.svg"
 
     cmd = [
         env.get("TRGT_PATH"),
