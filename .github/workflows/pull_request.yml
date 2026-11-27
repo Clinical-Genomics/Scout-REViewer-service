@@ -50,6 +50,16 @@ jobs:
          gunzip REViewer.gz
          sudo install -m 755 REViewer /usr/local/bin/
 
+     - name: Install trgt
+       run: |
+         version=$(sed -n 's/^ARG TRGT_VERSION=//p' Dockerfile)
+         sha256=$(sed -n 's/^ARG TRGT_SHA256=//p' Dockerfile)
+         curl -fsSL -o trgt.tar.gz \
+           "https://github.com/PacificBiosciences/trgt/releases/download/v${version}/trgt-v${version}-x86_64-unknown-linux-gnu.tar.gz"
+         echo "${sha256}  trgt.tar.gz" | sha256sum -c
+         tar -xzf trgt.tar.gz --strip-components=1
+         sudo install -m 755 trgt /usr/local/bin/
+
      - name: Run pytest
        run: uv run --frozen pytest
 

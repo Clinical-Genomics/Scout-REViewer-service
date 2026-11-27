@@ -51,7 +51,13 @@ def generate_trgt_svg(data, file_id, files):
         data.get("reference") or get_setting("TRGT_REF_PATH"),
         "--image",
         output_file,
+        "--plot-type",
+        data.get("plot_type", "allele"),
+        "--show",
+        data.get("show", "motifs"),
     ]
+    if data.get("squished"):
+        cmd.append("--squished")
 
     result = subprocess.run(cmd, stdout=subprocess.PIPE, check=True)
 

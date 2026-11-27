@@ -5,6 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 About changelog [here](https://keepachangelog.com/en/1.1.0/)
 
 ## [unreleased]
+### Added
+- `/trgt` plot options `plot_type` (allele/waterfall), `show` (motifs/meth) and `squished`, passed on to `trgt plot`
+- trgt integration tests on the trgt repository example, run in CI with the pinned trgt binary
 ### Changed
 - Use uv for dependency management, with a locked `uv.lock`; drop conda `environment.yml`
 - Docker image built on uv/python 3.14 slim images, running as non-root user, with checksum-pinned trgt (v5.1.0) and REViewer (v0.2.7) release binaries

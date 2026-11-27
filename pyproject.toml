@@ -39,6 +39,7 @@ packages = ["service"]
 [dependency-groups]
 dev = [
     "httpx2",
+    "pysam>=0.24.1",
     "pytest",
 ]
 lint = [
