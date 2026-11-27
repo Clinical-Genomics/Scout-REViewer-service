@@ -163,6 +163,17 @@ curl --location --request POST 'http://127.0.0.1:8000/trgt' \
 }'
 ```
 
+Optional plot options are passed on to `trgt plot`:
+
+| Field | Values | Default | trgt flag |
+|---|---|---|---|
+| `plot_type` | `allele`, `waterfall` | `allele` | `--plot-type` |
+| `show` | `motifs`, `meth` (needs MM/ML methylation tags in the reads) | `motifs` | `--show` |
+| `squished` | `true`, `false` | `false` | `--squished` |
+
+For example, add `"plot_type": "waterfall", "squished": true` to the request
+above for a compact waterfall plot. Other values are rejected with status 422.
+
 #### Docs
 
 Automatically generated API docs can be accessed at
@@ -176,6 +187,10 @@ x86_64 only, so they are skipped on e.g. macOS). They don't need `.env` or a ful
 reference: they use a small bgzipped stub of GRCh37 chromosome 18 with only the
 TCF4 region, rebuilt with `tests/test_data/make_stub_reference.py`. CI installs the
 REViewer version pinned in the `Dockerfile`.
+
+The trgt tests run when `trgt` is on `PATH`. They download the small example
+from the trgt repository at a pinned commit (checksums verified, cached in
+`.pytest_cache`) and run `trgt genotype` on it. CI installs the pinned trgt too.
 
 ```
 uv run pytest

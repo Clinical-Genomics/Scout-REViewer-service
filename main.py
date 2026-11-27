@@ -1,4 +1,5 @@
 import uuid
+from typing import Literal
 
 from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
@@ -63,8 +64,20 @@ async def reviewer(request_data: Reviewer):
         await remove_files(file_id)
 
 
+class Trgt(Reviewer):
+    plot_type: Literal["allele", "waterfall"] = Field(
+        "allele",
+        description="trgt plot --plot-type: allele (default) or waterfall.",
+    )
+    show: Literal["motifs", "meth"] = Field(
+        "motifs",
+        description="trgt plot --show: motifs (default) or meth, which needs MM/ML methylation tags.",
+    )
+    squished: bool = Field(False, description="trgt plot --squished: a more compact plot.")
+
+
 @app.post("/trgt", response_class=PlainTextResponse, tags=["trgt"])
-async def trgt(request_data: Reviewer):
+async def trgt(request_data: Trgt):
     file_id = str(uuid.uuid4())
     data = request_data.model_dump()
     try:
