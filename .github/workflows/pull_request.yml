@@ -40,6 +40,16 @@ jobs:
          enable-cache: true
          cache-dependency-glob: "uv.lock"
 
+     - name: Install REViewer
+       run: |
+         version=$(sed -n 's/^ARG REVIEWER_VERSION=//p' Dockerfile)
+         sha256=$(sed -n 's/^ARG REVIEWER_SHA256=//p' Dockerfile)
+         curl -fsSL -o REViewer.gz \
+           "https://github.com/Illumina/REViewer/releases/download/v${version}/REViewer-v${version}-linux_x86_64.gz"
+         echo "${sha256}  REViewer.gz" | sha256sum -c
+         gunzip REViewer.gz
+         sudo install -m 755 REViewer /usr/local/bin/
+
      - name: Run pytest
        run: uv run --frozen pytest
 

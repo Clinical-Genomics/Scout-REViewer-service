@@ -166,8 +166,11 @@ of this `README.md` is more extensive.
 
 ## Testing
 
-The REViewer integration tests need `REV_PATH` and a `.fasta` reference file
-(`REV_REF_PATH`) set in `.env`, see instructions above. They are skipped otherwise.
+The REViewer integration tests run when the `REViewer` binary is on `PATH` (Linux
+x86_64 only, so they are skipped on e.g. macOS). They don't need `.env` or a full
+reference: they use a small bgzipped stub of GRCh37 chromosome 18 with only the
+TCF4 region, rebuilt with `tests/test_data/make_stub_reference.py`. CI installs the
+REViewer version pinned in the `Dockerfile`.
 
 ```
 uv run pytest
